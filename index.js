@@ -271,9 +271,9 @@ function handleOrientation(event) {
   const rotationY = Math.minmax(event.gamma, 12); // Left to right tilt
   const rotationX = Math.minmax(event.beta, 12); // Front to back tilt
 
-  mazeElement.style.cssText = `
-      transform: rotateY(${rotationY}deg) rotateX(${-rotationX}deg)
-    `;
+  // mazeElement.style.cssText = `
+  //     transform: rotateY(${rotationY}deg) rotateX(${-rotationX}deg)
+  //   `;
 
   const gravity = 1;
   const friction = 0.01;
