@@ -244,20 +244,6 @@ const holes = [
   y: hole.row * (wallW + pathW) + (wallW / 2 + pathW / 2),
 }));
 
-joystickHeadElement.addEventListener("mousedown", function (event) {
-  if (!gameInProgress) {
-    mouseStartX = event.clientX;
-    mouseStartY = event.clientY;
-    gameInProgress = true;
-    window.requestAnimationFrame(main);
-    noteElement.style.opacity = 0;
-    joystickHeadElement.style.cssText = `
-        animation: none;
-        cursor: grabbing;
-      `;
-  }
-});
-
 // Listen to device orientation events
 window.addEventListener("deviceorientation", handleOrientation, true);
 
@@ -265,7 +251,6 @@ function handleOrientation(event) {
   if (!gameInProgress) {
     gameInProgress = true;
     window.requestAnimationFrame(main);
-    noteElement.style.opacity = 0;
   }
 
   const rotationY = Math.minmax(event.gamma, 12); // Left to right tilt
@@ -297,8 +282,6 @@ function resetGame() {
   mazeElement.style.cssText = `
       transform: rotateY(0deg) rotateX(0deg)
     `;
-
-  noteElement.style.opacity = 1;
 
   balls = [
     { column: 0, row: 0 },
