@@ -86,7 +86,7 @@ const slow = (number, difference) => {
 };
 
 const mazeElement = document.getElementById("maze");
-const joystickHeadElement = document.getElementById("joystick-head");
+// const joystickHeadElement = document.getElementById("joystick-head");
 const noteElement = document.getElementById("note"); // Note element for instructions and game won, game failed texts
 
 let hardMode = false;
@@ -284,34 +284,6 @@ function handleOrientation(event) {
   frictionY = gravity * Math.cos((rotationX / 180) * Math.PI) * friction;
 }
 
-window.addEventListener("keydown", function (event) {
-  // If not an arrow key or space or H was pressed then return
-  if (![" ", "H", "h", "E", "e"].includes(event.key)) return;
-
-  // If an arrow key was pressed then first prevent default
-  event.preventDefault();
-
-  // If space was pressed restart the game
-  if (event.key == " ") {
-    resetGame();
-    return;
-  }
-
-  // Set Hard mode
-  if (event.key == "H" || event.key == "h") {
-    hardMode = true;
-    resetGame();
-    return;
-  }
-
-  // Set Easy mode
-  if (event.key == "E" || event.key == "e") {
-    hardMode = false;
-    resetGame();
-    return;
-  }
-});
-
 function resetGame() {
   previousTimestamp = undefined;
   gameInProgress = false;
@@ -326,20 +298,6 @@ function resetGame() {
       transform: rotateY(0deg) rotateX(0deg)
     `;
 
-  joystickHeadElement.style.cssText = `
-      left: 0;
-      top: 0;
-      animation: glow;
-      cursor: grab;
-    `;
-
-  if (hardMode) {
-    noteElement.innerHTML = `Click the joystick to start!
-        <p>Hard mode, Avoid black holes. Back to easy mode? Press E</p>`;
-  } else {
-    noteElement.innerHTML = `Click the joystick to start!
-        <p>Move every ball to the center. Ready for hard mode? Press H</p>`;
-  }
   noteElement.style.opacity = 1;
 
   balls = [
@@ -365,18 +323,6 @@ function resetGame() {
     mazeElement.removeChild(holeElement);
   });
   holeElements = [];
-
-  // Reset hole elements if hard mode
-  if (hardMode) {
-    holes.forEach(({ x, y }) => {
-      const ball = document.createElement("div");
-      ball.setAttribute("class", "black-hole");
-      ball.style.cssText = `left: ${x}px; top: ${y}px; `;
-
-      mazeElement.appendChild(ball);
-      holeElements.push(ball);
-    });
-  }
 }
 
 function main(timestamp) {
