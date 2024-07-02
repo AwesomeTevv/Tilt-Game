@@ -275,7 +275,7 @@ function handleOrientation(event) {
       transform: rotateY(${rotationY}deg) rotateX(${-rotationX}deg)
     `;
 
-  const gravity = 2;
+  const gravity = 1;
   const friction = 0.01;
 
   accelerationX = gravity * Math.sin((rotationY / 180) * Math.PI);
