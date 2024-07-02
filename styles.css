@@ -24,14 +24,14 @@ body {
   justify-content: center;
   height: 100%;
 }
-
+/* 
 #game {
   display: grid;
   grid-template-columns: auto 150px;
   grid-template-rows: 1fr auto 1fr;
   gap: 30px;
   perspective: 600px;
-}
+} */
 
 #maze {
   position: relative;
