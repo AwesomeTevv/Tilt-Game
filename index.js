@@ -258,34 +258,31 @@ joystickHeadElement.addEventListener("mousedown", function (event) {
   }
 });
 
-window.addEventListener("mousemove", function (event) {
-  if (gameInProgress) {
-    const mouseDeltaX = -Math.minmax(mouseStartX - event.clientX, 15);
-    const mouseDeltaY = -Math.minmax(mouseStartY - event.clientY, 15);
+// Listen to device orientation events
+window.addEventListener("deviceorientation", handleOrientation, true);
 
-    joystickHeadElement.style.cssText = `
-        left: ${mouseDeltaX}px;
-        top: ${mouseDeltaY}px;
-        animation: none;
-        cursor: grabbing;
-      `;
-
-    const rotationY = mouseDeltaX * 0.8; // Max rotation = 12
-    const rotationX = mouseDeltaY * 0.8;
-
-    mazeElement.style.cssText = `
-        transform: rotateY(${rotationY}deg) rotateX(${-rotationX}deg)
-      `;
-
-    const gravity = 2;
-    const friction = 0.01; // Coefficients of friction
-
-    accelerationX = gravity * Math.sin((rotationY / 180) * Math.PI);
-    accelerationY = gravity * Math.sin((rotationX / 180) * Math.PI);
-    frictionX = gravity * Math.cos((rotationY / 180) * Math.PI) * friction;
-    frictionY = gravity * Math.cos((rotationX / 180) * Math.PI) * friction;
+function handleOrientation(event) {
+  if (!gameInProgress) {
+    gameInProgress = true;
+    window.requestAnimationFrame(main);
+    noteElement.style.opacity = 0;
   }
-});
+
+  const rotationY = Math.minmax(event.gamma, 12); // Left to right tilt
+  const rotationX = Math.minmax(event.beta, 12); // Front to back tilt
+
+  mazeElement.style.cssText = `
+      transform: rotateY(${rotationY}deg) rotateX(${-rotationX}deg)
+    `;
+
+  const gravity = 2;
+  const friction = 0.01;
+
+  accelerationX = gravity * Math.sin((rotationY / 180) * Math.PI);
+  accelerationY = gravity * Math.sin((rotationX / 180) * Math.PI);
+  frictionX = gravity * Math.cos((rotationY / 180) * Math.PI) * friction;
+  frictionY = gravity * Math.cos((rotationX / 180) * Math.PI) * friction;
+}
 
 window.addEventListener("keydown", function (event) {
   // If not an arrow key or space or H was pressed then return
